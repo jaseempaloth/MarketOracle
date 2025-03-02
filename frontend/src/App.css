@@ -1,0 +1,129 @@
+.App {
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+  border-radius: 0 0 10px 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.App-header h1 {
+  margin: 0;
+  font-size: 2.2rem;
+}
+
+.App-header p {
+  font-size: 1.1rem;
+  margin: 8px 0 0;
+  opacity: 0.8;
+}
+
+.App-main {
+  min-height: calc(100vh - 200px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.search-section {
+  margin-bottom: 20px;
+}
+
+.prediction-section {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.prediction-results {
+  margin-top: 20px;
+}
+
+.prediction-values {
+  margin-top: 30px;
+  background-color: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.prediction-values table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.prediction-values th, .prediction-values td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.prediction-values th {
+  background-color: #f2f2f2;
+}
+
+.prediction-values tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.error-message {
+  color: #d9534f;
+  background-color: #f9ecec;
+  border: 1px solid #ebccd1;
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin: 15px 0;
+}
+
+.loading {
+  margin: 20px 0;
+  font-style: italic;
+  color: #666;
+}
+
+.App-footer {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #f1f1f1;
+  color: #666;
+  border-radius: 10px 10px 0 0;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+  .App-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .App-header p {
+    font-size: 1rem;
+  }
+  
+  .prediction-values table {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .App-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .App-header p {
+    font-size: 0.9rem;
+  }
+  
+  .prediction-values table {
+    font-size: 12px;
+  }
+} 
