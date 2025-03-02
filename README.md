@@ -55,12 +55,12 @@ A full-stack application that leverages a GRU-based RNN model to predict stock p
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/market-oracle.git
-cd market-oracle
+git clone https://github.com/jaseempaloth/MarketOracle
+cd MarketOracle
 
 # Create a virtual environment (optional but recommended)
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate
 
 # Install dependencies
 cd backend
