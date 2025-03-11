@@ -61,8 +61,8 @@ class DataPipeline:
             df = data.copy()
             
             # Simple Moving Averages (SMA)
-            df['SMA_5'] = df['Close'].rolling(window=5).mean()
-            df['SMA_20'] = df['Close'].rolling(window=20).mean()
+            df['SMA_10'] = df['Close'].rolling(window=10).mean()
+            df['SMA_50'] = df['Close'].rolling(window=50).mean()
             
             # Relative Strength Index (RSI)
             delta = df['Close'].diff()
@@ -98,7 +98,7 @@ class DataPipeline:
             # Select features for the model
             feature_columns = [
                 'Open', 'High', 'Low', 'Close', 'Volume',
-                'SMA_5', 'SMA_20', 'RSI'
+                'SMA_10', 'SMA_50', 'RSI'
             ]
             
             # Ensure all selected features exist
@@ -164,8 +164,8 @@ class StockPredictor:
         """Create a new model or load an existing one"""
         try:
             # Define model parameters
-            input_dim = 8  # Updated for the simplified features
-            hidden_dim = 64
+            input_dim = 8
+            hidden_dim = 64 
             num_layers = 2
             output_dim = 1
             

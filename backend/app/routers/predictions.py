@@ -11,38 +11,47 @@ router = APIRouter()
 stock_predictor = StockPredictor()
 
 class PredictionRequest(BaseModel):
+    ticker: str
     days: int = 5
     window_size: int = 20
     
 class PredictionResponse(BaseModel):
     ticker: str
-    historical_data: Dict[str, List[float]]
     predictions: List[float]
-    dates: List[str]
     prediction_dates: List[str]
+    last_price: float
 
-@router.get("/predict/{ticker}", response_model=PredictionResponse)
-async def predict_stock(
-    ticker: str,
-    days: int = Query(5, ge=1, le=30, description="Number of days to predict"),
-    window_size: int = Query(20, ge=5, le=100, description="Window size for prediction")
-):
+@router.post("/predict", response_model=PredictionResponse)
+async def predict_stock(request: PredictionRequest):
     """
     Predict stock prices for the given ticker.
     
     - **ticker**: Stock ticker symbol (e.g., AAPL, MSFT)
-    - **days**: Number of days to predict
-    - **window_size**: Window size for the model input
+    - **days**: Number of days to predict (default: 5)
+    - **window_size**: Window size for the model input (default: 20)
     """
     try:
-        # Get historical data and predictions
-        result = stock_predictor.predict(ticker, days, window_size)
-        return result
+        if request.days < 1 or request.days > 30:
+            raise HTTPException(status_code=400, detail="Days must be between 1 and 30")
+        
+        if request.window_size < 5 or request.window_size > 100:
+            raise HTTPException(status_code=400, detail="Window size must be between 5 and 100")
+        
+        # Get predictions
+        result = stock_predictor.predict(request.ticker, request.days, request.window_size)
+        
+        # Simplify the response
+        return PredictionResponse(
+            ticker=request.ticker,
+            predictions=result["predictions"],
+            prediction_dates=result["prediction_dates"],
+            last_price=result["historical_data"]["close"][-1] if "close" in result["historical_data"] else 0.0
+        )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Prediction error: {str(e)}")
 
-@router.get("/stocks/search")
-async def search_stocks(query: str = Query(..., min_length=1)):
+@router.get("/stocks/search", response_model=Dict[str, List[Dict[str, str]]])
+async def search_stocks(q: str = Query(..., description="Search query")):
     """
     Search for stocks based on the query string.
     """
@@ -64,7 +73,7 @@ async def search_stocks(query: str = Query(..., min_length=1)):
         
         filtered_stocks = [
             stock for stock in stocks 
-            if query.lower() in stock["ticker"].lower() or query.lower() in stock["name"].lower()
+            if q.lower() in stock["ticker"].lower() or q.lower() in stock["name"].lower()
         ]
         
         return {"results": filtered_stocks}
